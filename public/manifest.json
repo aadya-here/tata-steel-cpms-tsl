@@ -9,9 +9,9 @@
   "start_url": "/",
   "icons": [
     {
-      "src": "maskable_icon.png",
+      "src": "maskable.png",
       "sizes": "196x196",
-      "type": "image/x-icon",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
