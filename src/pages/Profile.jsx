@@ -183,7 +183,7 @@ const Profile = () => {
                 throw error;
             }
             setAuth(false);
-            navigate("/home");
+            navigate("/");
             console.log("User signed out successfully");
         } catch (error) {
             console.error("Error signing out:", error.message);
