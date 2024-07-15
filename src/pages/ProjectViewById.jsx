@@ -99,10 +99,14 @@ const ProjectView = () => {
     );
 
     const formatValue = (field, value) => {
+        const capitalizeFirstLetter = (str) => {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        };
+
         if (field.isDate) {
             return value ? new Date(value).toLocaleDateString('en-GB') : 'N/A';
         }
-        return value || 'N/A';
+        return value ? capitalizeFirstLetter(value) : 'N/A';
     };
 
     const handleRefresh = () => {

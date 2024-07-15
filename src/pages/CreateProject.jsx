@@ -96,7 +96,7 @@ const CreateProject = () => {
                         planned_start_date: plannedStartDate,
                         actual_start_date: actualStartDate,
                         planned_end_date: plannedEndDate,
-                        actual_end_date: actualEndDate,
+                        actual_end_date: null,
                         delivery_end_date: deliveryEndDate,
                         validity_end_date: validityEndDate,
                         status: 'upcoming',
@@ -191,7 +191,7 @@ const CreateProject = () => {
                 <DatePickerField label="Planned Start Date" date={plannedStartDate} setDate={setPlannedStartDate} />
                 <DatePickerField label="Actual Start Date" date={actualStartDate} setDate={setActualStartDate} />
                 <DatePickerField label="Planned End Date" date={plannedEndDate} setDate={setPlannedEndDate} />
-                <DatePickerField label="Actual End Date" date={actualEndDate} setDate={setActualEndDate} />
+                {/* <DatePickerField label="Actual End Date" date={actualEndDate} setDate={setActualEndDate} /> */}
                 <DatePickerField label="Delivery End Date" date={deliveryEndDate} setDate={setDeliveryEndDate} />
                 <DatePickerField label="Validity End Date" date={validityEndDate} setDate={setValidityEndDate} />
 
