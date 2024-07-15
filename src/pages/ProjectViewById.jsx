@@ -100,6 +100,9 @@ const ProjectView = () => {
 
     const formatValue = (field, value) => {
         const capitalizeFirstLetter = (str) => {
+            if (typeof str !== 'string' || str.length === 0) {
+                return str;
+            }
             return str.charAt(0).toUpperCase() + str.slice(1);
         };
 
@@ -107,6 +110,14 @@ const ProjectView = () => {
             return value ? new Date(value).toLocaleDateString('en-GB') : 'N/A';
         }
         return value ? capitalizeFirstLetter(value) : 'N/A';
+    };
+
+
+    const capitalizeWords = (str) => {
+        if (typeof str !== 'string') {
+            return str;
+        }
+        return str.replace(/\b\w/g, (char) => char.toUpperCase()).replace(/_/g, ' ');
     };
 
     const handleRefresh = () => {
@@ -188,7 +199,6 @@ const ProjectView = () => {
         }
     };
 
-
     return (
         <div className='bg-blue-50 pb-20 p-5 min-w-screen'>
 
@@ -210,14 +220,13 @@ const ProjectView = () => {
                             : 'Status Unknown'}
             </div>
 
-
             <div className="py-5 pb-1 mx-auto w-full sm:w-4/5 lg:w-3/4">
                 <div className="w-full overflow-x-auto">
                     <Table className="w-full sm:w-90 lg:w-75">
                         <TableBody>
                             {Object.keys(project).map((field, index) => (
                                 <TableRow key={index}>
-                                    <TableCell>{field.replace(/_/g, ' ')}</TableCell>
+                                    <TableCell>{capitalizeWords(field)}</TableCell>
                                     <TableCell>{formatValue({ isDate: field.includes('date') }, project[field])}</TableCell>
                                 </TableRow>
                             ))}
