@@ -52,7 +52,7 @@ const Milestones = ({ projectId }) => {
     }, [projectId]);
 
     const handleNext = (event) => {
-        // event.preventDefault();
+        event.preventDefault();
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
@@ -76,7 +76,7 @@ const Milestones = ({ projectId }) => {
     };
 
     const handleCreateMilestone = async (event) => {
-        // event.preventDefault();
+        event.preventDefault();
         const { data, error } = await supabase
             .from('milestones')
             .insert([
@@ -92,12 +92,14 @@ const Milestones = ({ projectId }) => {
 
         if (error) {
             console.error('Error creating milestone:', error.message);
+            alert(error.message);
         } else if (data && data.length > 0) {
             setMilestones((prevMilestones) => [...prevMilestones, ...data]);
             setTitle('');
             setDescription('');
             setTargetDate(new Date());
-            setModalOpen(false);
+            // setModalOpen(false); 
+            alert('Milestone created successfully!');
         } else {
             console.error('No data returned after inserting milestone');
         }
@@ -133,19 +135,13 @@ const Milestones = ({ projectId }) => {
                             <Typography>Target Date: {new Date(milestone.target_date).toLocaleDateString()}</Typography>
                             <div className="mb-2">
                                 <div>
-
-                                    {/* <SecondaryButton text="Mark as completed" onClick={() => updateMilestoneStatus(milestone.milestone_id, 'completed')} /> */}
                                     <Button
                                         variant="outlined"
-                                        // color='success'
-                                        onClick={() => {
-                                            // event.preventDefault();
-                                            updateMilestoneStatus(milestone.milestone_id, 'completed');
-                                        }}
+                                        onClick={() => updateMilestoneStatus(milestone.milestone_id, 'completed')}
                                         sx={{ mt: 1 }}
                                         disabled={milestone.status === 'completed'}
                                     >
-                                        mark as done
+                                        Mark as done
                                     </Button>
                                 </div>
                             </div>
@@ -157,7 +153,7 @@ const Milestones = ({ projectId }) => {
                 <div className="flex justify-center items-center h-screen">
                     <div className="bg-blue-50 p-8 rounded-md shadow-md w-full max-w-md relative">
                         <div className="flex justify-between">
-                            <p >Create New Milestone</p>
+                            <p>Create New Milestone</p>
                             <IconButton sx={{ marginRight: 1 }} onClick={handleCloseModal}>
                                 <CloseIcon />
                             </IconButton>
@@ -182,8 +178,8 @@ const Milestones = ({ projectId }) => {
                         </form>
                     </div>
                 </div>
-            </Modal >
-        </div >
+            </Modal>
+        </div>
     );
 };
 
