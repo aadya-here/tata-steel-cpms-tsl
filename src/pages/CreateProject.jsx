@@ -139,7 +139,8 @@ const CreateProject = () => {
                 </IconButton>
             </div>
 
-            <div className='items-center justify-center flex flex-col'>
+            <div className='items-center justify-center flex flex-col w-5/6 mx-auto'>
+
                 <InputField placeholder="Project Title" handleInputChange={setProjectTitle} />
                 <InputField placeholder="Project Goal" handleInputChange={setProjectGoal} />
                 <InputField placeholder="Location" handleInputChange={setLocation} />
