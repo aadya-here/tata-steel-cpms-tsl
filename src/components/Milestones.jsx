@@ -16,6 +16,7 @@ import InputField from './ui_components/InputField';
 import SubmitButton from './ui_components/PrimaryButton';
 import DatePickerField from '../components/ui_components/Datepicker';
 import SecondaryButton from './ui_components/SecondaryButton';
+import AddFile from '../components/AddFile';
 
 const Milestones = ({ projectId }) => {
     const [milestones, setMilestones] = useState([]);
@@ -24,6 +25,8 @@ const Milestones = ({ projectId }) => {
     const [description, setDescription] = useState('');
     const [targetDate, setTargetDate] = useState(new Date());
     const [modalOpen, setModalOpen] = useState(false);
+    const [fileUrls, setFileUrls] = useState([]);
+
 
     useEffect(() => {
         const fetchMilestones = async () => {
@@ -108,6 +111,10 @@ const Milestones = ({ projectId }) => {
     const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = () => setModalOpen(false);
 
+    const handleFileAdded = (fileUrl) => {
+        setFileUrls([...fileUrls, fileUrl]);
+    };
+
     return (
         <div className="w-full flex flex-col items-center">
             <div className="flex items-center justify-between w-full max-w-2xl p-4">
@@ -135,6 +142,15 @@ const Milestones = ({ projectId }) => {
                             <Typography>Target Date: {new Date(milestone.target_date).toLocaleDateString()}</Typography>
                             <div className="mb-2">
                                 <div>
+                                    <AddFile
+                                        projectId={projectId}
+                                        logId={null}
+                                        // userId={reviewerId}
+                                        // caption={caption}
+                                        folderPath="milestones"
+                                        onFileAdded={handleFileAdded}
+                                        tag={`milestone-${projectId}`}
+                                    />
                                     <Button
                                         variant="outlined"
                                         onClick={() => updateMilestoneStatus(milestone.milestone_id, 'completed')}
@@ -149,6 +165,8 @@ const Milestones = ({ projectId }) => {
                     </Step>
                 ))}
             </Stepper>
+
+
             <Modal open={modalOpen} onClose={handleCloseModal}>
                 <div className="flex justify-center items-center h-screen">
                     <div className="bg-blue-50 p-8 rounded-md shadow-md w-full max-w-md relative">

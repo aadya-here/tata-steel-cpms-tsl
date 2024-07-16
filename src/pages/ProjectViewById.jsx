@@ -294,6 +294,7 @@ const ProjectView = () => {
             {/* <Logs projectId={projectId} /> */}
 
             <Milestones projectId={projectId} />
+            <FileDisplaySection projectId={projectId} tag={`milestone-${projectId}`} />
         </div>
     );
 };

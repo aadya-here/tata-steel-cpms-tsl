@@ -51,12 +51,12 @@ export default function BottomNavbar() {
                     sx={{ justifyContent: 'center' }}
                     onClick={() => { navigate("/logs") }}
                 />
-                <BottomNavigationAction
+                {/* <BottomNavigationAction
                     label="Dashboard"
                     icon={<ChartBarIcon className="size-5" />}
                     sx={{ justifyContent: 'center' }}
                     onClick={() => { navigate("/dashboard") }}
-                />
+                /> */}
                 <BottomNavigationAction
                     label="Forms"
                     icon={<DocumentCheckIcon className="size-5" />}
