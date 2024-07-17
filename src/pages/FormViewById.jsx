@@ -3,24 +3,41 @@ import supabase from '../supabase';
 import React, { useEffect, useState } from 'react';
 import Title from '../components/ui_components/Title';
 import Subheading from '../components/ui_components/Subheading';
-
-
-import { Divider } from '@mui/joy';
-
+import { Divider, Button, Modal, Box, TextField } from '@mui/material';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import TableComponent from '../components/TableComponent';
+import SecondaryButton from '../components/ui_components/SecondaryButton';
+import InputField from '../components/ui_components/InputField';
+import SubmitButton from '../components/ui_components/PrimaryButton';
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
 function FormsView() {
-    const { formName, formId, formLogId } = useParams();
+    const { vendorId, formName, formId, formLogId } = useParams();
     const [data, setData] = useState(null);
     const [approvalData, setApprovalData] = useState(null);
     const [projectId, setProjectId] = useState(null);
     const [projectName, setProjectName] = useState('');
-
     const [vendorName, setVendorName] = useState('');
 
-    const vendorId = 3;
+    const [open, setOpen] = useState(false);
+    const [approvedByName, setApprovedByName] = useState('');
+    const [approvedByPno, setApprovedByPno] = useState('');
+    const [approvalStatus, setApprovalStatus] = useState('');
+    const [approvalRemarks, setApprovalRemarks] = useState('');
 
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const getTableName = (formName) => {
         switch (formName) {
@@ -141,6 +158,33 @@ function FormsView() {
         }
     }, [formName, formId, formLogId, projectId, projectName, vendorName]);
 
+    const updateApprovalData = async () => {
+        const updatedData = {
+            approved_by_name: approvedByName,
+            approved_by_pno: approvedByPno,
+            approval_status: approvalStatus,
+            approval_remarks: approvalRemarks
+        };
+
+        try {
+            const { data: updatedApprovalData, error: updateError } = await supabase
+                .from('forms_logs')
+                .update(updatedData)
+                .eq('form_log_id', formLogId)
+                .single();
+
+            if (updateError) {
+                console.error('Error updating approval data:', updateError.message);
+            } else {
+                console.log('Approval data updated successfully:', updatedApprovalData);
+                setApprovalData(updatedApprovalData); // Update state with new data
+                handleClose(); // Close the modal
+            }
+        } catch (error) {
+            console.error('Error in updateApprovalData:', error.message);
+        }
+    };
+
     if (!data) {
         return <div className='bg-white pb-20 p-5 min-w-screen'><Title text="Loading" /></div>;
     }
@@ -187,6 +231,8 @@ function FormsView() {
                 <TableComponent
                     data={Object.fromEntries(rows.map(row => [row.name, row.value]))}
                 />
+                <br />
+                <SecondaryButton text="Approve Form" onClick={handleOpen} />
 
                 {approvalData && (
                     <div className="py-5 pb-10">
@@ -194,11 +240,35 @@ function FormsView() {
 
                         {/* Use TableComponent for Approval Details */}
                         <TableComponent data={approvalData} />
+
+                        <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <Box sx={style}>
+                                <div className="flex justify-between items-center">
+                                    <Subheading text="Approve Form" />
+                                    <Button onClick={handleClose} aria-label="Close">
+                                        X
+                                    </Button>
+                                </div>
+                                <form onSubmit={(e) => { e.preventDefault(); updateApprovalData(); }}>
+                                    <InputField placeholder="Approved By Name" handleInputChange={setApprovedByName} />
+                                    <InputField placeholder="Approved By PNO" handleInputChange={setApprovedByPno} />
+                                    <InputField placeholder="Approval Status" handleInputChange={setApprovalStatus} />
+                                    <InputField placeholder="Approval Remarks" handleInputChange={setApprovalRemarks} />
+
+                                    <SubmitButton text="Submit" handleSubmit={updateApprovalData} />
+                                </form>
+                            </Box>
+                        </Modal>
                     </div>
                 )}
+
             </div>
         </div>
-
     );
 }
 

@@ -55,7 +55,7 @@ const Milestones = ({ projectId }) => {
     }, [projectId]);
 
     const handleNext = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 

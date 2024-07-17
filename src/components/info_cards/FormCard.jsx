@@ -6,7 +6,7 @@ import { useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
-const FormCard = ({ projectName, date, formStatus, formName, formId, formLogId, vendorName }) => {
+const FormCard = ({ projectName, date, formStatus, formName, formId, formLogId, vendorName, vendorId }) => {
     const isLargeScreen = useMediaQuery('(min-width:600px)');
     // const queryParams = queryString.stringify({ formName, formLogId });
     const getColor = (status) => {
@@ -36,6 +36,9 @@ const FormCard = ({ projectName, date, formStatus, formName, formId, formLogId, 
                 <Chip size="sm" variant="outlined" color={getColor(formStatus)}>
                     {formName}
                 </Chip>
+                <Chip size="sm" variant="outlined" color={getColor(formStatus)}>
+                    {vendorId}
+                </Chip>
                 <ListItem size="sm" className="list-none">{date}</ListItem>
             </div>
             <Divider inset="none" />
@@ -46,7 +49,7 @@ const FormCard = ({ projectName, date, formStatus, formName, formId, formLogId, 
                     color="neutral"
                     endDecorator={<KeyboardArrowRight />}
                     component={Link}
-                    to={`/forms/${formName}/${formId}/${formLogId}`}
+                    to={`/forms/${vendorId}/${formName}/${formId}/${formLogId}`}
                 >
                     View
                 </Button>

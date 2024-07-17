@@ -294,7 +294,11 @@ const ProjectView = () => {
             {/* <Logs projectId={projectId} /> */}
 
             <Milestones projectId={projectId} />
-            <FileDisplaySection projectId={projectId} tag={`milestone-${projectId}`} />
+
+            <div className="mx-auto flex flex-row w-full sm:w-4/5 md:w-2/5">
+                <FileDisplaySection projectId={projectId} tag={`milestone-${projectId}`} />
+            </div>
+
         </div>
     );
 };

@@ -38,7 +38,7 @@ function App() {
 
 
           <Route path="/logs/:logId" element={<LogView />} />
-          <Route path="/forms/:formName/:formId/:formLogId" element={<FormsView />} />
+          <Route path="/forms/:vendorId/:formName/:formId/:formLogId" element={<FormsView />} />
 
 
 
